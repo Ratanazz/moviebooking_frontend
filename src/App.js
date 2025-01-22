@@ -8,6 +8,7 @@ import Mytickets from './pages/MyTickets'
 import Profile from './pages/Profile'
 import Loginpage from './components/Loginpage'
 import Registerpage from './components/Registerpage'
+import MovieDetail from './pages/MovieDetail'
 function App() {
   return (
     <Router>
@@ -20,6 +21,10 @@ function App() {
           <Route path="/movie" element={<Movie />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/home" element={<Home />} />
+
+          <Route path="/movie/:id" element={<MovieDetail />} />
+
+
           <Route path='/login' element={<Loginpage/>}/>
           <Route path='/signin' element={<Registerpage/>}/>
         </Routes>
