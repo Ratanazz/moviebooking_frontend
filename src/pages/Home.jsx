@@ -1,4 +1,3 @@
-import React, { useEffect, useState } from "react";
 import Slider from "react-slick";
 import API from "../services/API";
 import "./Home.css";
@@ -138,6 +137,3 @@ export default function Home() {
           </div>
         </div>
       </footer>
-    </div>
-  );
-}

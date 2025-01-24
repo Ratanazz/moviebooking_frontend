@@ -1,10 +1,25 @@
 import React from "react";
+import { Link, useNavigate } from 'react-router-dom';
+import { useAuth } from '../AuthContext';
 import "./css_component/Navbar.css";
 import { FaSearch, FaTicketAlt, FaUser, FaBell, FaHome } from "react-icons/fa";
 import { FiMapPin } from "react-icons/fi";
 import logo from "./logo.png";
 
 function Navbar() {
+  const Navbar = () => {
+  const { isAuthenticated, logout } = useAuth();
+  const navigate = useNavigate();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  const handleLoginClick = () => {
+    navigate('/login');
+  };
+
+  const handleLogoutClick = () => {
+    logout();
+    setIsMobileMenuOpen(false);
+  };
   return (
     <header className="navbar-wrapper">
       <nav className="navbar">
@@ -59,5 +74,3 @@ function Navbar() {
     </header>
   );
 }
-
-export default Navbar;
