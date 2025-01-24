@@ -52,8 +52,8 @@ const RegisterPage = () => {
           src="/api/placeholder/40/40"
           className="mx-auto h-10 w-auto"
         />
-        <h2 className="mt-10 text-center text-2xl font-bold leading-9 text-gray-900">
-          Create your account
+        <h2 className="mt-10 text-center text-2xl font-bold leading-9 text-white-900">
+          Create your account here
         </h2>
       </div>
 
@@ -66,7 +66,7 @@ const RegisterPage = () => {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-900">
+            <label htmlFor="name" className="block text-sm font-medium text-white-900">
               Full Name
             </label>
             <div className="mt-2">
@@ -83,7 +83,7 @@ const RegisterPage = () => {
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-900">
+            <label htmlFor="email" className="block text-sm font-medium text-white-900">
               Email address
             </label>
             <div className="mt-2">
@@ -94,13 +94,13 @@ const RegisterPage = () => {
                 required
                 value={formData.email}
                 onChange={handleChange}
-                className="block w-full rounded-md bg-white px-3 py-1.5 text-gray-900 outline outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm"
+                className="block w-full rounded-md bg-white px-3 py-1.5 text-white-900 outline outline-1 -outline-offset-1 outline-white-300 placeholder:text-white-400 focus:outline focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm"
               />
             </div>
           </div>
 
           <div>
-            <label htmlFor="password" className="block text-sm font-medium text-gray-900">
+            <label htmlFor="password" className="block text-sm font-medium text-white-900">
               Password
             </label>
             <div className="mt-2">
@@ -117,7 +117,7 @@ const RegisterPage = () => {
           </div>
 
           <div>
-            <label htmlFor="password_confirmation" className="block text-sm font-medium text-gray-900">
+            <label htmlFor="password_confirmation" className="block text-sm font-medium text-white-900">
               Confirm Password
             </label>
             <div className="mt-2">
