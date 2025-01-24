@@ -37,6 +37,7 @@ export default function MovieDetail() {
         alt={`${movie.title} banner`} 
         className="movie-banner"
       />
+      <iframe src={movie.trailer_url} frameborder="0"></iframe>
       
       <div className="movie-info">
         <p>{movie.description}</p>
