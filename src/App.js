@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './App.css';
-import Navbar from './components/Navbar'
+import Navbar from './components/Navbar';
 import { AuthProvider } from './AuthContext';
 import Home from './pages/Home';
 import Movie from './pages/Movie'
@@ -9,6 +9,8 @@ import Profile from './pages/Profile'
 import Loginpage from './components/Loginpage'
 import Registerpage from './components/Registerpage'
 import MovieDetail from './pages/MovieDetail'
+import Footer from './components/Footer'
+import { ImageMinus } from 'lucide-react';
 function App() {
   return (
     <Router>
@@ -28,6 +30,7 @@ function App() {
           <Route path='/login' element={<Loginpage/>}/>
           <Route path='/signin' element={<Registerpage/>}/>
         </Routes>
+        <Footer/>
       </div>
     </AuthProvider>
   </Router>
