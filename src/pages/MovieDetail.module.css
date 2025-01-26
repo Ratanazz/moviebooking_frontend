@@ -1,0 +1,201 @@
+.movie-detail {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  
+  .top-detail {
+    position: relative;
+    display: flex;
+    background-size: cover;
+    background-position: center;
+    border-radius: 15px;
+    overflow: hidden;
+    padding: 30px;
+    gap: 30px;
+  }
+  .top-detail::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5); /* Dark overlay */
+    z-index: 1; /* Ensures the overlay is on top of the image */
+  }
+  .movie-poster {
+    max-width: 400px; /* Adjust the size as needed */
+    height: auto;
+    z-index: 3; /* Ensure the movie poster is above the overlay */
+    border-radius: 10px; /* Optional: Add rounded corners for styling */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); /* Optional: Add shadow for a better effect */
+    object-fit: cover; /* Ensure the image covers the container properly */
+  }
+  .left-side ,      
+  .right-side {
+    position: relative;
+    z-index: 2; /* Ensure text and other content appears above the overlay */
+  }
+  
+  .movie-info h1 {
+    font-size: 2.5rem;
+    margin-bottom: 15px;
+  }
+  
+  .movie-info p {
+    margin-bottom: 10px;
+    line-height: 1.6;
+  }
+  
+  .movie-rating-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+    font-size: 1.2rem;
+    color: white;
+  }
+  
+  .imdb-logo {
+    width: 40px;
+    height: auto;
+    object-fit: contain;
+  }
+  
+  .show-times,
+  .available-seats {
+    margin-top: 30px;
+    background-color: rgba(30, 30, 30, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  .show-times h2,
+  .available-seats h2 {
+    color: #e0e0e0;
+    margin-bottom: 15px;
+  }
+  
+  .show-times ul,
+  .available-seats ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .show-times li,
+  .available-seats li {
+    background-color: rgba(50, 50, 50, 0.5);
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+  }
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .top-detail {
+      flex-direction: column;
+      align-items: center;
+    }
+  
+    .left-side,
+    .right-side {
+      width: 100%;
+    }
+  }
+/* Screen and Seating Area */
+.seating-area {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+  
+  .screen {
+    width: 80%;
+    height: 30px;
+    background-color: #ccc;
+    border-radius: 10px;
+    text-align: center;
+    line-height: 30px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  
+  .seat-grid {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr); /* Adjust columns as needed */
+    gap: 15px;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .seat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    font-size: 3rem;
+   
+  }
+  
+  
+  /* Responsive Adjustments */
+  @media (max-width: 768px) {
+    .seat-grid {
+      grid-template-columns: repeat(4, 1fr); /* Fewer columns on smaller screens */
+    }
+  }
+/* Movie Trailer Section */
+.movie-trailer {
+    margin-top: 40px;
+    text-align: center;
+  }
+  
+  .movie-trailer h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: white;
+  }
+  
+  .trailer-container {
+    width: 100%;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  
+  .movie-trailer-iframe {
+    width: 100%;
+    height: 540px;
+    border-radius: 10px;
+  }
+  .show-times {
+    margin-top: 40px;
+    background-color: rgba(30, 30, 30, 0.7);
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  .show-times h2 {
+    color: #e0e0e0;
+    margin-bottom: 15px;
+  }
+  
+  .show-times ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .show-times li {
+    background-color: rgba(50, 50, 50, 0.5);
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 5px;
+    color: white;
+  }
+    
+    
