@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useParams } from "react-router-dom";
-import { PiArmchairLight, PiArmchairFill } from "react-icons/pi"; // Importing icons
+import { PiArmchairLight, PiArmchairFill } from "react-icons/pi";
 import API from "../services/API";
 import styles from "./MovieDetail.module.css";
 import imdbLogo from "../image/imdb-logo.png";
@@ -10,6 +10,13 @@ export default function MovieDetail() {
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [selectedShow, setSelectedShow] = useState(null);
+  const [selectedSeat, setSelectedSeat] = useState(null);
+  
+  // Refs for scrolling
+  const seatingAreaRef = useRef(null);
+  const trailerRef = useRef(null);
+  const showTimesRef = useRef(null);
 
   useEffect(() => {
     const fetchMovie = async () => {
@@ -27,6 +34,26 @@ export default function MovieDetail() {
 
     fetchMovie();
   }, [id]);
+
+  const handleShowtimeClick = (show) => {
+    setSelectedShow(show);
+    setSelectedSeat(null);
+    seatingAreaRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const handleSeatClick = (seat) => {
+    if (seat.is_available) {
+      setSelectedSeat(seat);
+    }
+  };
+
+  const scrollToTrailer = () => {
+    trailerRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  const scrollToShowTimes = () => {
+    showTimesRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   if (loading) return <div className={styles.loading}>Loading movie details...</div>;
   if (error) return <div className={styles.error}>{error}</div>;
@@ -57,13 +84,28 @@ export default function MovieDetail() {
                 {movie.rating}
               </div>
             )}
+            <div className={styles["action-buttons"]}>
+              {movie.trailer_url && (
+                <button 
+                  className={styles["trailer-button"]} 
+                  onClick={scrollToTrailer}
+                >
+                  Watch Trailer
+                </button>
+              )}
+              <button 
+                className={styles["ticket-button"]} 
+                onClick={scrollToShowTimes}
+              >
+                Get Ticket
+              </button>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Movie Trailer Section Below Poster */}
       {movie.trailer_url && (
-        <section className={styles["movie-trailer"]}>
+        <section className={styles["movie-trailer"]} ref={trailerRef}>
           <h2>Watch the Trailer</h2>
           <div className={styles["trailer-container"]}>
             <iframe
@@ -78,49 +120,61 @@ export default function MovieDetail() {
         </section>
       )}
 
-      {/* Showing Times Section */}
-      <section className={styles["show-times"]}>
+      <section className={styles["show-times"]} ref={showTimesRef}>
         <h2>Available Show Times</h2>
         {movie.shows && movie.shows.length > 0 ? (
-          <ul>
+          <div className={styles["show-time-container"]}>
             {movie.shows.map((show) => (
-              <li key={show.id}>
-                Time: {new Date(show.show_time).toLocaleString()}
-                <br />
-                Price: ${show.price}
-                <br />
-                Screen: {show.screen_id}
-              </li>
+              <div
+                key={show.id}
+                className={`${styles["show-time"]} ${
+                  selectedShow?.id === show.id ? styles["selected-showtime"] : ""
+                }`}
+                onClick={() => handleShowtimeClick(show)}
+              >
+                {new Date(show.show_time).toLocaleTimeString([], {
+                  hour: "2-digit",
+                  minute: "2-digit",
+                })}
+              </div>
             ))}
-          </ul>
+          </div>
         ) : (
           <p>No show times available</p>
         )}
       </section>
 
-      {/* Available Seats Section */}
-      <section className={styles["available-seats"]}>
+      <section className={styles["available-seats"]} ref={seatingAreaRef}>
         <h2>Available Seats</h2>
-        <div className={styles["seating-area"]}>
-          <div className={styles["screen"]}>SCREEN</div>
-          {movie.shows && movie.shows[0]?.available_seats?.length > 0 ? (
+        {selectedShow && selectedShow.available_seats && selectedShow.available_seats.length > 0 ? (
+          <div className={styles["seating-area"]}>
+            <div className={styles["screen"]}>SCREEN</div>
             <div className={styles["seat-grid"]}>
-              {movie.shows[0].available_seats.map((seat) => (
+              {selectedShow.available_seats.map((seat) => (
                 <div
                   key={seat.id}
                   className={`${styles["seat"]} ${
                     seat.is_available ? styles["available"] : styles["taken"]
-                  }`}
+                  } ${selectedSeat?.id === seat.id ? styles["selected-seat"] : ""}`}
+                  onClick={() => handleSeatClick(seat)}
                 >
                   {seat.is_available ? <PiArmchairLight /> : <PiArmchairFill />}
                   <span>{seat.seat_number}</span>
                 </div>
               ))}
             </div>
-          ) : (
-            <p>No seats available</p>
-          )}
-        </div>
+            {selectedSeat && (
+              <div className={styles["ticket-info"]}>
+                <p>
+                  Selected Seat: {selectedSeat.seat_number} | Price: $
+                  {selectedShow.price}
+                </p>
+              </div>
+            )}
+          </div>
+        ) : (
+          <p>Select a showtime to view available seats.</p>
+        )}
       </section>
     </div>
   );
