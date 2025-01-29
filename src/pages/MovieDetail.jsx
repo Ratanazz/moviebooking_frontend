@@ -78,6 +78,7 @@ export default function MovieDetail() {
             <h1>{movie.title}</h1>
             <p>{movie.description}</p>
             <p>Release Date: {new Date(movie.release_date).toLocaleDateString()}</p>
+            <p>RunTime: {movie.formatted_run_time}</p>
             {movie.rating && (
               <div className={styles["movie-rating-container"]}>
                 <img src={imdbLogo} alt="IMDb" className={styles["imdb-logo"]} />
