@@ -11,8 +11,9 @@ export default function MovieDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [selectedShow, setSelectedShow] = useState(null);
-  const [selectedSeat, setSelectedSeat] = useState(null);
-  
+  const [selectedSeat, setSelectedSeat] = useState([]);
+  const [selectedSeats, setSelectedSeats] = useState([]);
+  const [availableSeats, setAvailableSeats] = useState([]);
   // Refs for scrolling
   const seatingAreaRef = useRef(null);
   const trailerRef = useRef(null);
@@ -35,15 +36,59 @@ export default function MovieDetail() {
     fetchMovie();
   }, [id]);
 
-  const handleShowtimeClick = (show) => {
+  const handleShowtimeClick = async (show) => {
     setSelectedShow(show);
     setSelectedSeat(null);
+  
+    try {
+      const response = await API.get(`/shows/${show.id}/seats`);
+      console.log("Available seats response:", response.data); // Log the response
+      setAvailableSeats(response.data);
+    } catch (error) {
+      console.error("Error fetching available seats:", error);
+    }
+  
     seatingAreaRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   const handleSeatClick = (seat) => {
-    if (seat.is_available) {
-      setSelectedSeat(seat);
+    if (!seat.is_available) {
+      alert("This seat is already taken.");
+      return;
+    }
+  
+    setSelectedSeats((prevSeats) => {
+      if (prevSeats.some((s) => s.id === seat.id)) {
+        // Remove the seat if already selected
+        return prevSeats.filter((s) => s.id !== seat.id);
+      } else {
+        // Add the seat if not already selected
+        return [...prevSeats, seat];
+      }
+    });
+  };
+  const handleBookSeat = async () => {
+    if (selectedSeats.length === 0 || !selectedShow) {
+      alert("Please select at least one seat and a showtime.");
+      return;
+    }
+  
+    try {
+      const response = await API.post("/book-seat", {
+        show_id: selectedShow.id,
+        seat_ids: selectedSeats.map(seat => seat.id), // Send multiple seat IDs
+      });
+  
+      alert("Seats booked successfully!");
+      console.log("Booking details:", response.data.booking);
+  
+      // Refresh available seats after booking
+      const updatedSeatsResponse = await API.get(`/shows/${selectedShow.id}/seats`);
+      setAvailableSeats(updatedSeatsResponse.data);
+      setSelectedSeats([]); // Deselect all seats after booking
+    } catch (error) {
+      console.error("Error booking seats:", error);
+      alert("Failed to book seats. Please try again.");
     }
   };
 
@@ -150,28 +195,34 @@ export default function MovieDetail() {
         {selectedShow && selectedShow.available_seats && selectedShow.available_seats.length > 0 ? (
           <div className={styles["seating-area"]}>
             <div className={styles["screen"]}>SCREEN</div>
-            <div className={styles["seat-grid"]}>
-              {selectedShow.available_seats.map((seat) => (
-                <div
-                  key={seat.id}
-                  className={`${styles["seat"]} ${
-                    seat.is_available ? styles["available"] : styles["taken"]
-                  } ${selectedSeat?.id === seat.id ? styles["selected-seat"] : ""}`}
-                  onClick={() => handleSeatClick(seat)}
-                >
-                  {seat.is_available ? <PiArmchairLight /> : <PiArmchairFill />}
-                  <span>{seat.seat_number}</span>
+                <div className={styles["seat-grid"]}>
+                  {selectedShow.available_seats.map((seat) => (
+                    <div
+                      key={seat.id}
+                      className={`${styles["seat"]} ${
+                        seat.is_available ? styles["available"] : styles["taken"]
+                      } ${selectedSeats.some(s => s.id === seat.id) ? styles["selected-seat"] : ""}`}
+                      onClick={() => handleSeatClick(seat)}
+                    >
+                      {seat.is_available ? <PiArmchairLight /> : <PiArmchairFill />}
+                      <span>{seat.seat_number}</span>
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-            {selectedSeat && (
-              <div className={styles["ticket-info"]}>
-                <p>
-                  Selected Seat: {selectedSeat.seat_number} | Price: $
-                  {selectedShow.price}
-                </p>
-              </div>
-            )}
+                          {selectedSeats.length > 0 && (
+                <div className={styles["ticket-info"]}>
+                  <p>
+                    Selected Seats: {selectedSeats.map(seat => seat.seat_number).join(", ")} | 
+                    Total Price: ${selectedSeats.length * selectedShow.price}
+                  </p>
+                  <button 
+                    className={styles["book-button"]} 
+                    onClick={handleBookSeat}
+                  >
+                    Book Now
+                  </button>
+                </div>
+              )}
           </div>
         ) : (
           <p>Select a showtime to view available seats.</p>
