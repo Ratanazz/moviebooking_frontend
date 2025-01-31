@@ -21,6 +21,11 @@ export default function Navbar() {
     }
   };
 
+  const handleLogoClick = () => {
+    // Navigate to the home page when the logo is clicked
+    navigate("/");
+  };
+
   const handleLogoutClick = () => {
     logout();
     setIsMobileMenuOpen(false);
@@ -31,7 +36,7 @@ export default function Navbar() {
       <nav className="navbar">
         <div className="navbar-content">
           <div className="navbar-top">
-            <div className="search-container">
+            <div className="search-container glass-button">
               <FaSearch className="search-icon" />
               <input
                 type="text"
@@ -40,21 +45,21 @@ export default function Navbar() {
               />
             </div>
 
-            <div className="logo">
+            <div className="logo" onClick={handleLogoClick}>
               <img src={logo} alt="logo" />
             </div>
 
             <div className="navbar-actions">
-              <a href="/ticket" className="action-button">
+              <a href="/ticket" className="action-button glass-button">
                 <FaTicketAlt /> Ticket
               </a>
               <button
-                className="action-button profile-button"
+                className="action-button profile-button glass-button"
                 onClick={handleProfileClick}
               >
                 <FaUser /> Profile
               </button>
-              <a href="/notifications" className="icon-button">
+              <a href="/notifications" className="icon-button glass-button">
                 <FaBell />
               </a>
             </div>
@@ -63,19 +68,19 @@ export default function Navbar() {
           <div className="navbar-bottom">
             <ul className="nav-menu">
               <li className="nav-item active">
-                <a href="/">
+                <a href="/" className="glass-button">
                   <FaHome className="nav-icon" /> Home
                 </a>
               </li>
               <li className="nav-item">
-                <a href="/cinemas">
+                <a href="/cinemas" className="glass-button">
                   <FiMapPin className="nav-icon" /> Cinemas
                 </a>
               </li>
             </ul>
 
             <div className="location-info">
-              <FiMapPin /> All Cinemas
+              
             </div>
           </div>
         </div>

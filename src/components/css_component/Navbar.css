@@ -22,14 +22,13 @@
 .navbar-content {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 2px;
 }
 
 .navbar-top {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px 0;
 }
 
 .search-container {
@@ -77,7 +76,7 @@
 .nav-menu {
   display: flex;
   list-style: none;
-  gap: 20px;
+  gap: 10px;
   padding: 0;
 }
 
@@ -86,24 +85,47 @@
   text-decoration: none;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 5px;
 }
 
 .nav-item.active a {
   color: var(--text-light);
 }
 
+.logo img {
+  width: 100px;
+  height: 100px;
+}
+
+/* Glass effect for buttons */
+.glass-button {
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.1); /* Transparent white background */
+  color: var(--text-light);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 10px 15px;
+  border-radius: 20px;
+  backdrop-filter: blur(8px); /* Blur effect */
+  transition: all 0.3s ease-in-out;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.glass-button:hover {
+  background-color: rgba(255, 255, 255, 0.2); /* Slightly more visible on hover */
+  transform: translateY(-2px); /* Slight lift on hover */
+}
+
+.glass-button:active {
+  transform: translateY(2px); /* Slight press effect */
+}
+
 @media (max-width: 768px) {
   .navbar-wrapper {
     --navbar-height: 100px;
   }
-  
+
   .navbar-top {
     flex-direction: column;
-    gap: 10px;
+    gap: 5px;
   }
-}
-.logo img {
-  max-width: 70px; /* Adjust this value to your desired width */
-  height: auto; /* Maintains aspect ratio */
 }

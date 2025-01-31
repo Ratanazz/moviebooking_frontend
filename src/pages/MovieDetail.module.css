@@ -1,6 +1,6 @@
 /* Main Layout */
 .movie-detail {
-  max-width: 1200px;
+  max-width: 14 00px;
   margin: 0 auto;
   padding: 20px;
 }
@@ -14,8 +14,8 @@
   background-position: center;
   border-radius: 15px;
   overflow: hidden;
-  padding: 30px;
-  gap: 30px;
+  padding: 100px;
+  gap: 70px;
 }
 
 .top-detail::before {
