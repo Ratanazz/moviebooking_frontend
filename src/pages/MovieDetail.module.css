@@ -99,22 +99,19 @@
 }
 
 .show-times h2 {
+  text-align: center;
   font-size: 1.8rem;
   color: white;
   margin-bottom: 20px;
 }
 
-.show-time-container {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
+
 
 .show-time {
   background-color: rgba(50, 50, 50, 0.5);
   color: white;
   padding: 10px;
-  border-radius: 5px;
+  border-radius: 10px;
   cursor: pointer;
   text-align: center;
   transition: background-color 0.3s ease, transform 0.2s ease;
@@ -140,7 +137,7 @@
 }
 
 .available-seats h2 {
-  font-size: 1.8rem;
+  font-size: 1.5rem;
   color: #e0e0e0;
   margin-bottom: 15px;
 }
@@ -162,15 +159,15 @@
   line-height: 30px;
   font-weight: bold;
   color: #333;
-  margin-bottom: 20px;
+  margin-bottom: 50px;
 }
 
 .seat-grid {
   display: grid;
   grid-template-columns: repeat(10, 1fr);
-  gap: 15px;
+  gap: 20px;
   justify-content: center;
-  width: 100%;
+  width: 60%;
 }
 
 .seat {
@@ -187,7 +184,7 @@
   padding: 8px;
   transition: all 0.2s ease;
   position: relative;
-  border: 2px solid transparent; /* Add this for smooth border transition */
+  border: 2px solid transparent; 
 }
 
 .seat:hover {

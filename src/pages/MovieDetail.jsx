@@ -141,7 +141,7 @@ export default function MovieDetail() {
               )}
               <button 
                 className={styles["ticket-button"]} 
-                onClick={scrollToShowTimes}
+                onClick={scrollToTrailer}
               >
                 Get Ticket
               </button>
