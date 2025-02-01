@@ -87,7 +87,7 @@ export default function Navbar() {
             </div>
 
             <div className="navbar-actions">
-              <a href="/ticket" className="action-button glass-button">
+              <a href="/myticket" className="action-button glass-button">
                 <FaTicketAlt /> Ticket
               </a>
               <button

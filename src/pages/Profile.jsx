@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../AuthContext"; // Import useAuth hook
 import "./Profile.css"; // Import CSS file
 
 function Profile() {
   const [user, setUser] = useState(null);
+  const { logout } = useAuth(); // Use the logout function from AuthContext
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -23,6 +27,11 @@ function Profile() {
     fetchProfile();
   }, []);
 
+  const handleLogout = () => {
+    logout(); // Call the logout function from AuthContext
+    navigate("/login"); // Redirect to the login page
+  };
+
   if (!user) {
     return <div className="loading">Loading profile...</div>;
   }
@@ -37,6 +46,7 @@ function Profile() {
       />
       <p className="profile-info"><strong>Name:</strong> {user.name}</p>
       <p className="profile-info"><strong>Email:</strong> {user.email}</p>
+      <button className="logout-button" onClick={handleLogout}>Logout</button>
     </div>
   );
 }
