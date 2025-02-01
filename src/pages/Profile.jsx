@@ -39,13 +39,17 @@ function Profile() {
   return (
     <div className="profile-container">
       <h2 className="profile-title">Profile</h2>
-      <img 
-        src="https://cvhrma.org/wp-content/uploads/2015/07/default-profile-photo-300x300.jpg" 
-        alt="User Avatar" 
-        className="profile-image"
-      />
-      <p className="profile-info"><strong>Name:</strong> {user.name}</p>
-      <p className="profile-info"><strong>Email:</strong> {user.email}</p>
+      <div className="profile-content">
+        <img 
+          src="https://cvhrma.org/wp-content/uploads/2015/07/default-profile-photo-300x300.jpg" 
+          alt="User Avatar" 
+          className="profile-image"
+        />
+        <div className="profile-details">
+          <p className="profile-info"><strong>Name:</strong> {user.name}</p>
+          <p className="profile-info"><strong>Email:</strong> {user.email}</p>
+        </div>
+      </div>
       <button className="logout-button" onClick={handleLogout}>Logout</button>
     </div>
   );

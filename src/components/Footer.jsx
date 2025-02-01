@@ -66,15 +66,8 @@ function Footer() {
               </div>
             </div>
           </div>
-          <div className={styles['social-links']}>
-            <p>Follow Us</p>
-            <div>
-              <i className="fab fa-facebook"></i>
-              <i className="fab fa-instagram"></i>
-              <i className="fab fa-twitter"></i>
-              <i className="fab fa-tiktok"></i>
-            </div>
-          </div>
+         
+           
         </div>
       </footer>
   )

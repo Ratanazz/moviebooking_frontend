@@ -1,0 +1,110 @@
+.ticket-container {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 50px;
+    border-radius: 25px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(145deg, #5d0606, #1a1919);
+    color: #ffffff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .ticket-container:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.3);
+  }
+  
+  .header-box {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .ticket-title {
+    font-size: 26px;
+    font-weight: bold;
+    color: #ffffff;
+  }
+  
+  .ticket-welcome {
+    font-size: 16px;
+    color: #e0e0e0;
+  }
+  
+  .ticket-box {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+  }
+  
+  .ticket-message,
+  .ticket-error {
+    font-size: 18px;
+  }
+  
+  .ticket-error {
+    color: #ff3b3b;
+  }
+  
+  .loading {
+    font-size: 18px;
+    color: #a0a0a0;
+    font-style: italic;
+    animation: pulse 1.5s infinite;
+  }
+  
+  @keyframes pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+  }
+  
+  .ticket-grid {
+    display: grid;
+    gap: 20px;
+  }
+  
+  .ticket-card {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 12px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  .ticket-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  }
+  
+  .ticket-content {
+    flex: 1;
+    font-size: 19px;
+    margin-left: 20px;
+  }
+  
+  .ticket-movie {
+    font-size: 32px;
+    font-weight: bold;
+    color: #ffffff;
+  }
+  
+  .ticket-id {
+    display: inline-block;
+    margin-top: 5px;
+    padding: 5px 10px;
+    background: #831802;
+    color: #fff;
+    border-radius: 8px;
+    font-size: 15px;
+  }
+  
+  .ticket-image img {
+    width: 180px;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
