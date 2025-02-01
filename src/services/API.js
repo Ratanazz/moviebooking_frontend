@@ -1,33 +1,42 @@
 import axios from "axios";
 
-// Base URL for your Laravel backend
 const API = axios.create({
-  baseURL: "http://127.0.0.1:8000/api", // Adjust the base URL as needed
+  baseURL: "http://127.0.0.1:8000/api",
   headers: {
     "Content-Type": "application/json",
     Accept: "application/json",
   },
+  withCredentials: true, // Important for Sanctum
 });
 
-// Add a request interceptor (optional, for adding tokens or logging)
 API.interceptors.request.use(
   (config) => {
-    // Example: Add authorization token if needed
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem('token');
     if (token) {
+      // Don't split or modify the token - use it as is
       config.headers.Authorization = `Bearer ${token}`;
+      // Debug log
+      console.log('Using token:', token);
     }
     return config;
   },
   (error) => Promise.reject(error)
 );
 
-// Add a response interceptor (optional, for handling errors globally)
 API.interceptors.response.use(
   (response) => response,
-  (error) => {
-    // Handle errors globally if required
-    console.error("API Error:", error.response || error.message);
+  async (error) => {
+    console.log('Response error:', error.response);
+    
+    if (error.response?.status === 401) {
+      // Log the full error for debugging
+      console.log('Authorization error:', error.response);
+      
+      // Optionally clear storage and redirect
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      window.location.href = '/login';
+    }
     return Promise.reject(error);
   }
 );

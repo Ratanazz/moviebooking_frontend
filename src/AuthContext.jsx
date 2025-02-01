@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import API from './services/API';
 
 const AuthContext = createContext(null);
 
@@ -9,41 +10,42 @@ export const AuthProvider = ({ children }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-      setIsAuthenticated(true);
-    }
+    checkAuthStatus();
   }, []);
+
+  const checkAuthStatus = async () => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      try {
+        // Verify token with backend
+        const response = await API.get('/user');
+        if (response.data) {
+          setUser(response.data);
+          setIsAuthenticated(true);
+        }
+      } catch (error) {
+        console.error('Auth check failed:', error);
+        logout();
+      }
+    }
+  };
 
   const login = async (email, password) => {
     try {
-      const response = await fetch('http://127.0.0.1:8000/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password })
+      const response = await API.post('/login', {
+        email,
+        password
       });
 
-      const data = await response.json();
-      console.log('Login Response:', data);
-
-      if (!response.ok) {
-        throw new Error(data.message || 'Login failed');
-      }
-
-      // Updated condition to match the API response
-      if (data.message === 'Login successful' && data.user) {
-        // Store both user data and token
-        localStorage.setItem('user', JSON.stringify(data.user));
-        localStorage.setItem('token', data.token); // Store the token
-        setUser(data.user);
-        setIsAuthenticated(true);
-        navigate('/home');
-      } else {
-        throw new Error('Invalid response from server');
-      }
+      const { token, user } = response.data;
+      
+      // Store the complete token
+      localStorage.setItem('token', token);
+      localStorage.setItem('user', JSON.stringify(user));
+      
+      setUser(user);
+      setIsAuthenticated(true);
+      navigate('/home');
     } catch (error) {
       console.error('Login error:', error);
       throw error;
@@ -51,12 +53,11 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = () => {
-    // Clear all stored data
     localStorage.removeItem('user');
-    localStorage.removeItem('token'); // Also remove the token
+    localStorage.removeItem('token');
     setUser(null);
     setIsAuthenticated(false);
-    navigate('/home');
+    navigate('/login');
   };
 
   return (
@@ -65,7 +66,8 @@ export const AuthProvider = ({ children }) => {
         isAuthenticated, 
         user, 
         login, 
-        logout 
+        logout,
+        checkAuthStatus 
       }}
     >
       {children}

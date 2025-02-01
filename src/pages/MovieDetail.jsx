@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { useAuth } from "../AuthContext";
 import { PiArmchairLight, PiArmchairFill } from "react-icons/pi";
 import API from "../services/API";
 import styles from "./MovieDetail.module.css";
@@ -7,6 +8,7 @@ import imdbLogo from "../image/imdb-logo.png";
 
 export default function MovieDetail() {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [movie, setMovie] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -14,6 +16,7 @@ export default function MovieDetail() {
   const [selectedSeat, setSelectedSeat] = useState([]);
   const [selectedSeats, setSelectedSeats] = useState([]);
   const [availableSeats, setAvailableSeats] = useState([]);
+  const { isAuthenticated ,checkAuthStatus} = useAuth();
   // Refs for scrolling
   const seatingAreaRef = useRef(null);
   const trailerRef = useRef(null);
@@ -68,27 +71,44 @@ export default function MovieDetail() {
     });
   };
   const handleBookSeat = async () => {
+    if (!isAuthenticated) {
+      alert("Please log in to book seats.");
+      navigate('/login');
+      return;
+    }
+
     if (selectedSeats.length === 0 || !selectedShow) {
       alert("Please select at least one seat and a showtime.");
       return;
     }
-  
+
     try {
       const response = await API.post("/book-seat", {
         show_id: selectedShow.id,
-        seat_ids: selectedSeats.map(seat => seat.id), // Send multiple seat IDs
+        seat_ids: selectedSeats.map(seat => seat.id),
       });
-  
-      alert("Seats booked successfully!");
-      console.log("Booking details:", response.data.booking);
-  
-      // Refresh available seats after booking
-      const updatedSeatsResponse = await API.get(`/shows/${selectedShow.id}/seats`);
-      setAvailableSeats(updatedSeatsResponse.data);
-      setSelectedSeats([]); // Deselect all seats after booking
+
+      if (response.data.success) {
+        alert("Seats booked successfully!");
+        
+        // Refresh seats after successful booking
+        const updatedSeatsResponse = await API.get(`/shows/${selectedShow.id}/seats`);
+        setAvailableSeats(updatedSeatsResponse.data);
+        setSelectedSeats([]);
+      }
     } catch (error) {
-      console.error("Error booking seats:", error);
-      alert("Failed to book seats. Please try again.");
+      console.error("Booking error:", error);
+      
+      if (error.response?.status === 401) {
+        // Check auth status before redirecting
+        await checkAuthStatus();
+        if (!isAuthenticated) {
+          alert("Your session has expired. Please log in again.");
+          navigate('/login');
+        }
+      } else {
+        alert(error.response?.data?.message || "Failed to book seats. Please try again.");
+      }
     }
   };
 
